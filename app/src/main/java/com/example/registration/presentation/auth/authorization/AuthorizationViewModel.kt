@@ -76,6 +76,7 @@ class AuthorizationViewModel @Inject constructor(
             if (user != null) {
                 onSuccess()
                 sharedPrefRepository.saveToken(true)
+                sharedPrefRepository.saveCurrentUserId(user.id)
             }
         }
     }

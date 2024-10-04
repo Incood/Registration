@@ -90,6 +90,7 @@ class RegistrationViewModel @Inject constructor(
                     currentState.copy(successRegistration = true)
                 }
                 sharedPrefRepository.saveToken(true)
+                sharedPrefRepository.saveCurrentUserId(user.id)
             } catch (e: Exception) {
                 _state.update { currentState ->
                     currentState.copy(successRegistration = false)

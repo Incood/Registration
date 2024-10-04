@@ -41,7 +41,7 @@ import com.example.registration.ui.theme.MainBlue
 fun ListUsersDisplay(
     state: ListUsersState.Content,
     navHostController: NavHostController,
-    onEvent: (ListUsersEvent) -> Unit
+    onEvent: (ListUsersEvent) -> Unit,
 ) {
     LaunchedEffect(Unit) {
         onEvent(ListUsersEvent.ListUsers)
@@ -74,11 +74,15 @@ fun ListUsersDisplay(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(state.users, key = { it.id }) { user ->
-                UserItem(user = user, onDelete = {
-                    if (user.dateOfBirth > (state.currentUser?.dateOfBirth ?: "")) {
+                UserItem(user = user, currentUser = state.currentUser, onDelete = {
+                    if (state.currentUser != null && user.registrationDate > (state.currentUser.registrationDate)) {
                         onEvent(ListUsersEvent.DeleteUser(user.id))
                     } else {
-                        Toast.makeText(context, "Вы не можете удалить этого пользователя", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "Вы не можете удалить этого пользователя",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 })
             }
@@ -109,7 +113,11 @@ fun ListUsersDisplay(
 }
 
 @Composable
-fun UserItem(user: User, onDelete: () -> Unit) {
+fun UserItem(
+    user: User,
+    currentUser: User?,
+    onDelete: () -> Unit,
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -146,7 +154,13 @@ fun UserItem(user: User, onDelete: () -> Unit) {
                 )
             }
             Button(
-                onClick = onDelete,
+                onClick = {
+                    if (currentUser != null && user.registrationDate > currentUser.registrationDate) {
+                        onDelete()
+                    } else {
+
+                    }
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = MainBlue)
             ) {
                 Text(

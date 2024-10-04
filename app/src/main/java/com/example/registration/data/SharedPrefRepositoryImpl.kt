@@ -20,4 +20,14 @@ class SharedPrefRepositoryImpl @Inject constructor(
     override fun isUserAuthorized(): Boolean {
         return prefs.getBoolean("isAuthorized", false)
     }
+
+    override fun saveCurrentUserId(userId: Long) {
+        val editor = prefs.edit()
+        editor.putLong("currentUserId", userId)
+        editor.apply()
+    }
+
+    override fun getCurrentUserId(): Long {
+        return prefs.getLong("currentUserId", -1)
+    }
 }

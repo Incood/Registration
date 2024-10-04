@@ -1,6 +1,5 @@
 package com.example.registration.presentation.list_users
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.registration.EventHandler
@@ -22,6 +21,15 @@ class ListUsersViewModel @Inject constructor(
     val state: MutableStateFlow<ListUsersState.Content>
         get() = _state
     private val _state = MutableStateFlow(ListUsersState.Content())
+
+    init {
+        viewModelScope.launch {
+            val currentUserId = sharedPrefRepository.getCurrentUserId()
+            val currentUser = userDao.getUserById(currentUserId)
+            _state.value = _state.value.copy(currentUser = currentUser)
+            fetchUsers()
+        }
+    }
     override fun obtainEvent(event: ListUsersEvent) {
         when (event) {
             is ListUsersEvent.ListUsers -> fetchUsers()
@@ -35,7 +43,6 @@ class ListUsersViewModel @Inject constructor(
         viewModelScope.launch {
             val users = userDao.getAllUsers()
             _state.value = ListUsersState.Content(users = users, currentUser = _state.value.currentUser)
-            Log.e("ViewModel", "2")
         }
     }
 
