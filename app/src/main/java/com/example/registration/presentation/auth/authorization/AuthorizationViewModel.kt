@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.registration.EventHandler
 import com.example.registration.data.UserDao
+import com.example.registration.domain.repository.SharedPrefRepository
 import com.example.registration.presentation.auth.authorization.view_models.AuthorizationEvent
 import com.example.registration.presentation.auth.authorization.view_models.AuthorizationState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthorizationViewModel @Inject constructor(private val userDao: UserDao) :
+class AuthorizationViewModel @Inject constructor(
+    private val userDao: UserDao,
+    private val sharedPrefRepository: SharedPrefRepository
+) :
     ViewModel(), EventHandler<AuthorizationEvent> {
     val state: StateFlow<AuthorizationState>
         get() = _state
@@ -71,6 +75,7 @@ class AuthorizationViewModel @Inject constructor(private val userDao: UserDao) :
             val user = userDao.getUserByCredentials(userName, password)
             if (user != null) {
                 onSuccess()
+                sharedPrefRepository.saveToken(true)
             }
         }
     }

@@ -12,7 +12,7 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE name = :name AND password = :password LIMIT 1")
     suspend fun getUserByCredentials(name: String, password: String): User?
 
-    @Query("SELECT * FROM users ORDER BY dateOfBirth ASC")
+    @Query("SELECT * FROM users ORDER BY registrationDate ASC")
     suspend fun getAllUsers(): List<User>
 
     @Query("DELETE FROM users WHERE id = :userId")

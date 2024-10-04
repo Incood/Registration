@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.registration.EventHandler
 import com.example.registration.data.User
 import com.example.registration.data.UserDao
+import com.example.registration.domain.repository.SharedPrefRepository
 import com.example.registration.presentation.auth.registration.view_models.RegistrationEvent
 import com.example.registration.presentation.auth.registration.view_models.RegistrationState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RegistrationViewModel @Inject constructor(private val userDao: UserDao) :
+class RegistrationViewModel @Inject constructor(
+    private val userDao: UserDao,
+    private val sharedPrefRepository: SharedPrefRepository
+) :
     ViewModel(), EventHandler<RegistrationEvent> {
     val state : StateFlow<RegistrationState>
         get() = _state
@@ -85,6 +89,7 @@ class RegistrationViewModel @Inject constructor(private val userDao: UserDao) :
                 _state.update { currentState ->
                     currentState.copy(successRegistration = true)
                 }
+                sharedPrefRepository.saveToken(true)
             } catch (e: Exception) {
                 _state.update { currentState ->
                     currentState.copy(successRegistration = false)

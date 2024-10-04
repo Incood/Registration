@@ -3,10 +3,7 @@ package com.example.registration.presentation.navigation
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -20,7 +17,7 @@ import com.example.registration.presentation.list_users.ListUsersScreen
 import com.example.registration.presentation.list_users.ListUsersViewModel
 
 @Composable
-fun NavGraph(navController: NavHostController, padding: PaddingValues) {
+fun NavGraph(navController: NavHostController, startDestination: String) {
 
     NavHost(
         enterTransition = { fadeIn(animationSpec = tween(200)) },
@@ -28,8 +25,7 @@ fun NavGraph(navController: NavHostController, padding: PaddingValues) {
         popEnterTransition = { fadeIn(animationSpec = tween(200)) },
         popExitTransition = { fadeOut(animationSpec = tween(200)) },
         navController = navController,
-        startDestination = Screens.NoAuthorization.route,
-        modifier = Modifier.padding(paddingValues = padding)
+        startDestination = startDestination
     ) {
         composable(Screens.NoAuthorization.route) {
             NoAuthScreen(navHostController = navController)

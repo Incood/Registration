@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.registration.EventHandler
 import com.example.registration.data.UserDao
+import com.example.registration.domain.repository.SharedPrefRepository
 import com.example.registration.presentation.list_users.view_models.ListUsersEvent
 import com.example.registration.presentation.list_users.view_models.ListUsersState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +14,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ListUsersViewModel @Inject constructor(private val userDao: UserDao) :
+class ListUsersViewModel @Inject constructor(
+    private val userDao: UserDao,
+    private val sharedPrefRepository: SharedPrefRepository
+) :
     ViewModel(), EventHandler<ListUsersEvent> {
     val state: MutableStateFlow<ListUsersState.Content>
         get() = _state
@@ -22,6 +26,7 @@ class ListUsersViewModel @Inject constructor(private val userDao: UserDao) :
         when (event) {
             is ListUsersEvent.ListUsers -> fetchUsers()
             is ListUsersEvent.DeleteUser -> deleteUser(event.userId)
+            is ListUsersEvent.SaveToken -> saveToken(event.isAuthorized)
         }
     }
 
@@ -38,6 +43,12 @@ class ListUsersViewModel @Inject constructor(private val userDao: UserDao) :
         viewModelScope.launch {
             userDao.deleteUser(userId)
             fetchUsers()
+        }
+    }
+
+    private fun saveToken(authorized: Boolean) {
+        viewModelScope.launch {
+            sharedPrefRepository.saveToken(authorized)
         }
     }
 }

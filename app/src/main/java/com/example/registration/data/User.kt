@@ -2,6 +2,7 @@ package com.example.registration.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity(tableName = "users")
 data class User(
@@ -9,5 +10,6 @@ data class User(
     val name: String,
     val password: String,
     val dateOfBirth: String,
-    val avatarUri: String?
+    val avatarUri: String?,
+    val registrationDate: Date = Date()
 )

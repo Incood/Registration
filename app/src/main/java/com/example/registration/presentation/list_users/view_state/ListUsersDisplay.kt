@@ -26,15 +26,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.registration.R
 import com.example.registration.data.User
 import com.example.registration.presentation.list_users.view_models.ListUsersEvent
 import com.example.registration.presentation.list_users.view_models.ListUsersState
+import com.example.registration.presentation.navigation.Screens
 import com.example.registration.ui.theme.MainBlack
 import com.example.registration.ui.theme.MainBlue
 
@@ -67,12 +66,11 @@ fun ListUsersDisplay(
             ),
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(
-                    top = 16.dp,
-                    bottom = 16.dp)
+                .padding(top = 16.dp, bottom = 16.dp)
         )
 
         LazyColumn(
+            modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(state.users, key = { it.id }) { user ->
@@ -84,6 +82,28 @@ fun ListUsersDisplay(
                     }
                 })
             }
+        }
+
+        Button(
+            onClick = {
+                onEvent(ListUsersEvent.SaveToken(false))
+                navHostController.navigate(Screens.NoAuthorization.route)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF990000)),
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Text(
+                text = "Выйти из аккаунта",
+                color = Color.White,
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.sf_pro_bold)),
+                    fontWeight = FontWeight.Bold
+                )
+            )
         }
     }
 }
@@ -136,14 +156,4 @@ fun UserItem(user: User, onDelete: () -> Unit) {
             }
         }
     }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun ListUsersPREV() {
-    ListUsersDisplay(
-        state = ListUsersState.Content(users = listOf(User(1, "Иван Иванов","asd","01.01.1990", ""))),
-        navHostController = rememberNavController(),
-        onEvent = {}
-    )
 }
