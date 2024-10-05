@@ -12,6 +12,7 @@ val Pink40 = Color(0xFF7D5260)
 
 val SideOrange = Color(0xFFF46C5C)
 val MainBlue = Color(0xFF053d96)
+val LightBlue = Color(0xFF005ef5)
 val MainGray = Color(0xFFDBDBDB)
 val SecondGray = Color(0xFFE7E8EC)
 val TextLabelGray = Color(0xFF85899F)

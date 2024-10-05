@@ -1,5 +1,11 @@
 package com.example.registration.presentation.list_users.view_state
 
+import android.content.Context
+import android.net.Uri
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,8 +13,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -17,10 +25,14 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -28,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 import com.example.registration.R
 import com.example.registration.data.models.User
 import com.example.registration.presentation.list_users.view_models.ListUsersEvent
@@ -115,7 +128,14 @@ fun UserItem(
     onDelete: () -> Unit
 ) {
     val canDelete = currentUser != null && user.id != currentUser.id && user.registrationDate > currentUser.registrationDate
-
+    val imageUri = remember { mutableStateOf<Uri?>(null) }
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri: Uri? ->
+        uri?.let {
+            imageUri.value = it
+        }
+    }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -129,8 +149,31 @@ fun UserItem(
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            if (!user.avatarUri.isNullOrEmpty()) {
+                AsyncImage(
+                    model = user.avatarUri,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape)
+                        .background(Color.Gray)
+                )
+            } else {
+                Image(
+                    painter = painterResource(id = R.drawable.placeholder),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape)
+                        .background(Color.Gray)
+                )
+            }
+
+
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 16.dp)
             ) {
                 Text(
                     text = user.name,
@@ -168,5 +211,24 @@ fun UserItem(
                 )
             }
         }
+    }
+}
+
+fun checkUriAccessibility(context: Context, uriString: String?) {
+    if (uriString != null) {
+        val uri = Uri.parse(uriString)
+        try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            if (inputStream != null) {
+                Log.d("URI Check", "URI is accessible: $uriString")
+                inputStream.close() // Закрываем поток после проверки
+            } else {
+                Log.e("URI Check", "URI is not accessible: $uriString")
+            }
+        } catch (e: Exception) {
+            Log.e("URI Check", "Error accessing URI: $uriString", e)
+        }
+    } else {
+        Log.e("URI Check", "Provided URI is null")
     }
 }

@@ -7,7 +7,7 @@ import androidx.room.Query
 @Dao
 interface UserDao {
     @Insert
-    suspend fun insertUser(user: User)
+    suspend fun insertUser(user: User): Long
 
     @Query("SELECT * FROM users WHERE name = :name AND password = :password LIMIT 1")
     suspend fun getUserByCredentials(name: String, password: String): User?

@@ -2,7 +2,6 @@ package com.example.registration.domain.repository
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.registration.domain.repository.SharedPrefRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

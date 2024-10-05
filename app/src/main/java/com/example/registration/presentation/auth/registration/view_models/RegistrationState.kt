@@ -5,6 +5,7 @@ sealed class RegistrationState {
         val userName: String = "",
         val password: String = "",
         val dateOfBirth: String = "",
+        val avatarUri: String? = null,
         val isLoading: Boolean = false,
         val errorUsername : Boolean = false,
         val errorPassword : Boolean = false,

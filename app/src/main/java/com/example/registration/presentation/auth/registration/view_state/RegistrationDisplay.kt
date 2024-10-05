@@ -1,12 +1,20 @@
 package com.example.registration.presentation.auth.registration.view_state
 
+import android.content.Intent
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -17,7 +25,9 @@ import androidx.compose.material3.ShapeDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -33,11 +43,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.example.registration.R
 import com.example.registration.presentation.auth.registration.view_models.RegistrationEvent
 import com.example.registration.presentation.auth.registration.view_models.RegistrationState
 import com.example.registration.presentation.navigation.Screens
 import com.example.registration.presentation.utils.singleClick
+import com.example.registration.ui.theme.LightBlue
 import com.example.registration.ui.theme.MainBlue
 import com.example.registration.ui.theme.MainGray
 import com.example.registration.ui.theme.SideOrange
@@ -48,6 +60,29 @@ fun RegistrationDisplay(
     navHostController: NavHostController,
     event: (RegistrationEvent) -> Unit,
 ) {
+    val context = LocalContext.current
+
+    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri ->
+            uri?.let {
+                Log.d("URI RESULT", "$it")
+
+                val resolver = context.contentResolver
+                try {
+                    resolver.takePersistableUriPermission(
+                        it,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                } catch (e: SecurityException) {
+                    Log.e("Permission Error", "Failed to take persistable URI permission", e)
+                }
+
+                event(RegistrationEvent.ChangeAvatarUri(it.toString()))
+            }
+        }
+    )
+
     if (state.successRegistration) {
         navHostController.navigate(Screens.ListUsers.route) {
             popUpTo(Screens.Authorization.route) { inclusive = true }
@@ -92,20 +127,29 @@ fun RegistrationDisplay(
                     .padding(horizontal = 32.dp)
             ) {
 
-                Text(
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    text = "Регистрация",
+                Column(
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    state.avatarUri?.let {
+                        AsyncImage(
+                            model = it,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(100.dp)
+                                .clip(CircleShape)
+                                .background(Color.Gray)
+                                .align(Alignment.CenterHorizontally)
+                        )
+                    }
 
-                    // SF Pro/Semibold/24
-                    style = TextStyle(
-                        fontSize = 24.sp,
-                        lineHeight = 22.sp,
-                        fontFamily = FontFamily(Font(R.font.sf_pro_bold)),
-                        fontWeight = FontWeight(600),
-                        color = Color(0xFF0A123E),
-                    )
-
-                )
+                    Button(
+                        onClick = { singlePhotoPickerLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
+                        colors = ButtonDefaults.buttonColors(LightBlue),
+                        modifier = Modifier.padding(top = 16.dp)
+                    ) {
+                        Text(text = "Выбрать аватарку", color = Color.White)
+                    }
+                }
 
 
                 OutlinedTextField(

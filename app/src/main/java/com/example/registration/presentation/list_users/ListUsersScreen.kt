@@ -1,6 +1,5 @@
 package com.example.registration.presentation.list_users
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
@@ -18,7 +17,6 @@ fun ListUsersScreen(viewModel: ListUsersViewModel, navHostController: NavHostCon
                 navHostController = navHostController,
                 onEvent = { viewModel.obtainEvent(it) }
             )
-            Log.e("Screen", "1")
         }
     }
 }

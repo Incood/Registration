@@ -24,6 +24,7 @@ class RegistrationViewModel @Inject constructor(
     val state : StateFlow<RegistrationState>
         get() = _state
     private val _state = MutableStateFlow(RegistrationState.Content())
+
     override fun obtainEvent(event: RegistrationEvent) {
         when (event) {
             is RegistrationEvent.SignUp -> with(_state.value) {
@@ -36,7 +37,7 @@ class RegistrationViewModel @Inject constructor(
                         name = userName,
                         password = password,
                         dateOfBirth = dateOfBirth,
-                        avatarUri = null
+                        avatarUri = avatarUri
 
                 ) else _state.update { currentState ->
                     currentState.copy(
@@ -72,6 +73,9 @@ class RegistrationViewModel @Inject constructor(
                     )
                 }
             }
+            is RegistrationEvent.ChangeAvatarUri -> {
+                _state.update { it.copy(avatarUri = event.uri) }
+            }
             is RegistrationEvent.ResetAuthorization -> {
                 _state.update { currentState ->
                     currentState.copy(successRegistration = false)
@@ -82,10 +86,10 @@ class RegistrationViewModel @Inject constructor(
     }
 
     private fun saveUser(name: String, password: String, dateOfBirth: String, avatarUri: String?) {
-        val user = User(id = 0L, name = name, password = password, dateOfBirth = dateOfBirth, avatarUri = avatarUri)
+        val user = User(name = name, password = password, dateOfBirth = dateOfBirth, avatarUri = avatarUri)
         viewModelScope.launch {
             try {
-                userDao.insertUser(user)
+                val userId = userDao.insertUser(user)
                 _state.update { currentState ->
                     currentState.copy(successRegistration = true)
                 }
