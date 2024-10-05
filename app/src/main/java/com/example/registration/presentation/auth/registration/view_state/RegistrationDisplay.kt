@@ -36,7 +36,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,6 +47,7 @@ import com.example.registration.R
 import com.example.registration.presentation.auth.registration.view_models.RegistrationEvent
 import com.example.registration.presentation.auth.registration.view_models.RegistrationState
 import com.example.registration.presentation.navigation.Screens
+import com.example.registration.presentation.utils.DateVisualTransformation
 import com.example.registration.presentation.utils.singleClick
 import com.example.registration.ui.theme.LightBlue
 import com.example.registration.ui.theme.MainBlue
@@ -219,7 +219,9 @@ fun RegistrationDisplay(
                         .padding(top = 12.dp),
                     value = state.dateOfBirth,
                     onValueChange = { newText ->
-                        event(RegistrationEvent.ChangeDate(newText))
+                        if (newText.length <= 8) {
+                            event(RegistrationEvent.ChangeDate(newText))
+                        }
                     },
                     label = { Text(text = "Дата рождения") },
                     placeholder = { Text(text = "01.01.2000") },
@@ -240,7 +242,7 @@ fun RegistrationDisplay(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Done
                     ),
-                    visualTransformation = VisualTransformation.None
+                    visualTransformation = DateVisualTransformation()
                 )
 
                 Button(

@@ -46,6 +46,7 @@ import com.example.registration.data.models.User
 import com.example.registration.presentation.list_users.view_models.ListUsersEvent
 import com.example.registration.presentation.list_users.view_models.ListUsersState
 import com.example.registration.presentation.navigation.Screens
+import com.example.registration.presentation.utils.formatDateString
 import com.example.registration.ui.theme.MainBlack
 import com.example.registration.ui.theme.MainBlue
 import com.example.registration.ui.theme.MainGray
@@ -185,7 +186,7 @@ fun UserItem(
                     )
                 )
                 Text(
-                    text = user.dateOfBirth,
+                    text = formatDateString(user.dateOfBirth),
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontFamily = FontFamily(Font(R.font.sf_pro_medium)),
