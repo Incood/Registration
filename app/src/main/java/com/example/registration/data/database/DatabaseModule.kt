@@ -1,6 +1,7 @@
-package com.example.registration.data
+package com.example.registration.data.database
 
 import android.app.Application
+import com.example.registration.data.models.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

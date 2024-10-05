@@ -38,12 +38,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.registration.LoadingAnimation
 import com.example.registration.R
 import com.example.registration.presentation.auth.authorization.view_models.AuthorizationEvent
 import com.example.registration.presentation.auth.authorization.view_models.AuthorizationState
 import com.example.registration.presentation.navigation.Screens
-import com.example.registration.singleClick
+import com.example.registration.presentation.utils.LoadingAnimation
+import com.example.registration.presentation.utils.singleClick
 import com.example.registration.ui.theme.MainBlue
 import com.example.registration.ui.theme.MainGray
 import com.example.registration.ui.theme.SecondGray
@@ -202,11 +202,10 @@ fun AuthorizationDisplay(
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = animateColorAsState(
                             targetValue = if (state.userName.isNotEmpty()
-                                    .and(state.password.isNotEmpty())
+                                .and(state.password.isNotEmpty())
                             ) MainBlue else MainGray,
                             animationSpec = tween(100, easing = LinearEasing), label = ""
                         ).value
-
                     )
                 ) {
 
@@ -285,6 +284,6 @@ fun AuthorizationDisplay(
 
 @Preview(showSystemUi = true)
 @Composable
-fun test() {
+fun AuthorizationPREV() {
     AuthorizationDisplay(navHostController = rememberNavController()   , onEvent = {} , state = AuthorizationState.Content("" ,""))
 }

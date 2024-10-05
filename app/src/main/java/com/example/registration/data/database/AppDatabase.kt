@@ -1,4 +1,4 @@
-package com.example.registration.data
+package com.example.registration.data.database
 
 import android.content.Context
 import androidx.room.Database
@@ -7,6 +7,9 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.registration.data.Converters
+import com.example.registration.data.models.User
+import com.example.registration.data.models.UserDao
 
 @Database(entities = [User::class], version = 2)
 @TypeConverters(Converters::class)

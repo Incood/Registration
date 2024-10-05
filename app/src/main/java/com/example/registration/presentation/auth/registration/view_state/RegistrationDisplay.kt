@@ -4,10 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
@@ -35,12 +33,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.registration.LoadingAnimation
 import com.example.registration.R
 import com.example.registration.presentation.auth.registration.view_models.RegistrationEvent
 import com.example.registration.presentation.auth.registration.view_models.RegistrationState
 import com.example.registration.presentation.navigation.Screens
-import com.example.registration.singleClick
+import com.example.registration.presentation.utils.singleClick
 import com.example.registration.ui.theme.MainBlue
 import com.example.registration.ui.theme.MainGray
 import com.example.registration.ui.theme.SideOrange
@@ -72,7 +69,7 @@ fun RegistrationDisplay(
             }
             Text(
                 modifier = Modifier.align(Alignment.Center),
-                text = "Авторизация",
+                text = "Регистрация",
 
                 // SF Pro/Bold/18
                 style = TextStyle(
@@ -214,29 +211,21 @@ fun RegistrationDisplay(
                     colors = ButtonDefaults.buttonColors(MainBlue)
                 ) {
 
-                    if (true)
-                        Text(
-                            modifier = Modifier.padding(vertical = 8.dp),
-                            text = "Войти в аккаунт",
+                    Text(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        text = "Войти в аккаунт",
 
-                            // SF Pro/Bold/18
-                            style = TextStyle(
-                                fontSize = 18.sp,
-                                lineHeight = 24.3.sp,
-                                fontFamily = FontFamily(Font(R.font.sf_pro_bold)),
-                                fontWeight = FontWeight(700),
-                                color = Color(0xFFFFFFFF),
-                                textAlign = TextAlign.Center,
-                                letterSpacing = 0.42.sp,
-                            )
+                        // SF Pro/Bold/18
+                        style = TextStyle(
+                            fontSize = 18.sp,
+                            lineHeight = 24.3.sp,
+                            fontFamily = FontFamily(Font(R.font.sf_pro_bold)),
+                            fontWeight = FontWeight(700),
+                            color = Color(0xFFFFFFFF),
+                            textAlign = TextAlign.Center,
+                            letterSpacing = 0.42.sp,
                         )
-                    else {
-                        Spacer(modifier = Modifier.height(37.dp))
-                        LoadingAnimation(circleColor = Color.White, circleSize = 12.dp)
-                        Spacer(modifier = Modifier.height(37.dp))
-
-
-                    }
+                    )
                 }
 
                 Text(modifier = Modifier
@@ -261,9 +250,10 @@ fun RegistrationDisplay(
 
 @Preview(showSystemUi = true)
 @Composable
-fun test() {
+fun RegistrationPREV() {
     RegistrationDisplay(
         navHostController = rememberNavController(),
         event = {},
-        state = RegistrationState.Content("", ""))
+        state = RegistrationState.Content("", "")
+    )
 }

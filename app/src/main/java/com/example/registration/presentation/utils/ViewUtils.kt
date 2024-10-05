@@ -1,4 +1,4 @@
-package com.example.registration
+package com.example.registration.presentation.utils
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.RepeatMode

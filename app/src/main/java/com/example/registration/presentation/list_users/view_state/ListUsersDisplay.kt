@@ -1,6 +1,5 @@
 package com.example.registration.presentation.list_users.view_state
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,12 +29,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.registration.R
-import com.example.registration.data.User
+import com.example.registration.data.models.User
 import com.example.registration.presentation.list_users.view_models.ListUsersEvent
 import com.example.registration.presentation.list_users.view_models.ListUsersState
 import com.example.registration.presentation.navigation.Screens
 import com.example.registration.ui.theme.MainBlack
 import com.example.registration.ui.theme.MainBlue
+import com.example.registration.ui.theme.MainGray
 
 @Composable
 fun ListUsersDisplay(
@@ -74,17 +74,13 @@ fun ListUsersDisplay(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(state.users, key = { it.id }) { user ->
-                UserItem(user = user, currentUser = state.currentUser, onDelete = {
-                    if (state.currentUser != null && user.registrationDate > (state.currentUser.registrationDate)) {
+                UserItem(
+                    user = user,
+                    currentUser = state.currentUser,
+                    onDelete = {
                         onEvent(ListUsersEvent.DeleteUser(user.id))
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "Вы не можете удалить этого пользователя",
-                            Toast.LENGTH_SHORT
-                        ).show()
                     }
-                })
+                )
             }
         }
 
@@ -116,8 +112,10 @@ fun ListUsersDisplay(
 fun UserItem(
     user: User,
     currentUser: User?,
-    onDelete: () -> Unit,
+    onDelete: () -> Unit
 ) {
+    val canDelete = currentUser != null && user.id != currentUser.id && user.registrationDate > currentUser.registrationDate
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -155,13 +153,14 @@ fun UserItem(
             }
             Button(
                 onClick = {
-                    if (currentUser != null && user.registrationDate > currentUser.registrationDate) {
+                    if (canDelete) {
                         onDelete()
-                    } else {
-
                     }
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = MainBlue)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (canDelete) MainBlue else MainGray
+                ),
+                enabled = canDelete
             ) {
                 Text(
                     text = "Удалить",

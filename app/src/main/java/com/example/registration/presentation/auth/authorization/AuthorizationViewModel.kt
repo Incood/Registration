@@ -2,8 +2,8 @@ package com.example.registration.presentation.auth.authorization
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.registration.EventHandler
-import com.example.registration.data.UserDao
+import com.example.registration.presentation.utils.EventHandler
+import com.example.registration.data.models.UserDao
 import com.example.registration.domain.repository.SharedPrefRepository
 import com.example.registration.presentation.auth.authorization.view_models.AuthorizationEvent
 import com.example.registration.presentation.auth.authorization.view_models.AuthorizationState

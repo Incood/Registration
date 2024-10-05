@@ -2,12 +2,12 @@ package com.example.registration.presentation.auth.registration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.registration.EventHandler
-import com.example.registration.data.User
-import com.example.registration.data.UserDao
+import com.example.registration.data.models.User
+import com.example.registration.data.models.UserDao
 import com.example.registration.domain.repository.SharedPrefRepository
 import com.example.registration.presentation.auth.registration.view_models.RegistrationEvent
 import com.example.registration.presentation.auth.registration.view_models.RegistrationState
+import com.example.registration.presentation.utils.EventHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

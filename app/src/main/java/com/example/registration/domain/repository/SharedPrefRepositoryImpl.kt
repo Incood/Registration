@@ -1,4 +1,4 @@
-package com.example.registration.data
+package com.example.registration.domain.repository
 
 import android.content.Context
 import android.content.SharedPreferences

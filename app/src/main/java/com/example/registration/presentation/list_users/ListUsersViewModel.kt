@@ -2,11 +2,11 @@ package com.example.registration.presentation.list_users
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.registration.EventHandler
-import com.example.registration.data.UserDao
+import com.example.registration.data.models.UserDao
 import com.example.registration.domain.repository.SharedPrefRepository
 import com.example.registration.presentation.list_users.view_models.ListUsersEvent
 import com.example.registration.presentation.list_users.view_models.ListUsersState
+import com.example.registration.presentation.utils.EventHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch

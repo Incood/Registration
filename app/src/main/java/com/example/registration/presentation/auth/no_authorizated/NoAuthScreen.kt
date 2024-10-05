@@ -31,9 +31,6 @@ import com.example.registration.ui.theme.MainBlue
 
 @Composable
 fun NoAuthScreen(navHostController: NavHostController) {
-
-
-
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -136,7 +133,6 @@ fun NoAuthScreen(navHostController: NavHostController) {
 @Preview(showSystemUi = true)
 @Composable
 fun noAuthPREV() {
-
     NoAuthScreen(navHostController = rememberNavController())
 }
 

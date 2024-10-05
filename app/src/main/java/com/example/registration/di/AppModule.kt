@@ -1,6 +1,6 @@
 package com.example.registration.di
 
-import com.example.registration.data.SharedPrefRepositoryImpl
+import com.example.registration.domain.repository.SharedPrefRepositoryImpl
 import com.example.registration.domain.repository.SharedPrefRepository
 import dagger.Binds
 import dagger.Module

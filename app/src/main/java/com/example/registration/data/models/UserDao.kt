@@ -1,4 +1,4 @@
-package com.example.registration.data
+package com.example.registration.data.models
 
 import androidx.room.Dao
 import androidx.room.Insert
