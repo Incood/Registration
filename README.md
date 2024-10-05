@@ -9,10 +9,12 @@
 
 ## Скриншоты
 
-![Экран NoAuth](screens/noauth_screens.png)
-![Экран регистрации](screens/regist_screens.png)
-![Экран авторизации](screens/auth_screens.png)
-![Список пользователей](screens/list_users_screens.png)
+<p align="center">
+  <img src="./screens/noauth_screen.png" width="200" alt="Image 1">
+  <img src="./screens/regist_screen.png" width="200" alt="Image 2">
+  <img src="./screens/auth_screen.png" width="200" alt="Image 3">
+  <img src="./screens/list_users_screen.png" width="200" alt="Image 4">
+</p>
 
 ## Функциональность
 
