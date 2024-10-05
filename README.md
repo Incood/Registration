@@ -10,10 +10,10 @@
 ## Скриншоты
 
 <p align="center">
-  <img src="screens/noauth_screens.png" width="200" alt="Image 1">
-  <img src="screens/regist_screens.png" width="200" alt="Image 2">
-  <img src="screens/auth_screens.png" width="200" alt="Image 3">
-  <img src="screens/list_users_screens.png" width="200" alt="Image 4">
+  <img src="./screens/noauth_screens.png" width="200" alt="Image 1">
+  <img src="./screens/regist_screens.png" width="200" alt="Image 2">
+  <img src="./screens/auth_screens.png" width="200" alt="Image 3">
+  <img src="./screens/list_users_screens.png" width="200" alt="Image 4">
 </p>
 
 ## Функциональность
