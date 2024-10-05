@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -157,7 +158,8 @@ fun UserItem(
                     modifier = Modifier
                         .size(48.dp)
                         .clip(CircleShape)
-                        .background(Color.Gray)
+                        .background(Color.Gray),
+                    contentScale = ContentScale.Crop
                 )
             } else {
                 Image(
@@ -212,24 +214,5 @@ fun UserItem(
                 )
             }
         }
-    }
-}
-
-fun checkUriAccessibility(context: Context, uriString: String?) {
-    if (uriString != null) {
-        val uri = Uri.parse(uriString)
-        try {
-            val inputStream = context.contentResolver.openInputStream(uri)
-            if (inputStream != null) {
-                Log.d("URI Check", "URI is accessible: $uriString")
-                inputStream.close() // Закрываем поток после проверки
-            } else {
-                Log.e("URI Check", "URI is not accessible: $uriString")
-            }
-        } catch (e: Exception) {
-            Log.e("URI Check", "Error accessing URI: $uriString", e)
-        }
-    } else {
-        Log.e("URI Check", "Provided URI is null")
     }
 }
